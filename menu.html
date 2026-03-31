@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Menu — Coco Loco | College Station, TX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* -- RESET & BASE ---------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--brown); background: var(--offwhite); }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    :root {
+      --terracotta: #9E3D2E;
+      --chili: #7A2319;
+      --cream: #F3E7D3;
+      --offwhite: #FAF6EF;
+      --brown: #3C2B24;
+      --avocado: #66724A;
+      --gold: #C68A2D;
+      --darkest: #2A1E18;
+      --white: #ffffff;
+      --muted: #8B7D74;
+      --border: #D4C4B0;
+    }
+
+    /* -- ANIMATIONS ---------------------------------------- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* -- NAV ---------------------------------------- */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+      background: var(--offwhite);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(60,43,36,.06);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-logo-circle {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 15px; font-weight: 700;
+      color: var(--offwhite);
+    }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 700;
+      color: var(--brown);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .nav-links a {
+      font-size: 14px; font-weight: 500;
+      color: var(--muted);
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--brown); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-book {
+      padding: 10px 24px;
+      background: var(--terracotta);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 600;
+      border: none; border-radius: 6px;
+      cursor: pointer;
+      transition: background .3s, transform .2s;
+    }
+    .btn-book:hover { background: var(--chili); transform: translateY(-1px); }
+    .btn-call-nav {
+      padding: 10px 20px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 500;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all .3s;
+    }
+    .btn-call-nav:hover { color: var(--brown); border-color: var(--brown); }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: var(--brown);
+    }
+
+    /* -- PAGE HERO ---------------------------------------- */
+    .page-hero {
+      background: var(--brown);
+      padding: 120px 80px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1800&q=80') center/cover no-repeat;
+      opacity: .15;
+    }
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .page-hero-tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp .6s ease forwards .2s;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp .6s ease forwards .4s;
+    }
+    .page-hero p {
+      font-size: 17px;
+      color: rgba(243,231,211,.6);
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeUp .6s ease forwards .6s;
+    }
+
+    /* -- MENU WRAPPER ---------------------------------------- */
+    .menu-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    /* -- MENU CATEGORY ---------------------------------------- */
+    .menu-category {
+      margin-bottom: 56px;
+    }
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--cream);
+    }
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--brown);
+    }
+    .category-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gold);
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border: 1px solid rgba(198,138,45,.3);
+      border-radius: 20px;
+    }
+    .category-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* -- MENU ITEM ---------------------------------------- */
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(212,196,176,.4);
+      transition: background .2s;
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item:hover {
+      background: rgba(243,231,211,.4);
+      margin: 0 -12px;
+      padding: 16px 12px;
+      border-radius: 8px;
+    }
+    .item-left { flex: 1; }
+    .item-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--brown);
+      margin-bottom: 4px;
+    }
+    .item-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+      max-width: 500px;
+    }
+    .item-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .item-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 12px;
+      border: 1px solid;
+    }
+    .tag-popular { color: var(--terracotta); border-color: rgba(158,61,46,.3); }
+    .tag-weekend { color: var(--avocado); border-color: rgba(102,114,74,.3); }
+    .tag-spicy { color: #C44D2E; border-color: rgba(196,77,46,.3); }
+
+    /* -- CTA BANNER ---------------------------------------- */
+    .menu-cta {
+      background: var(--brown);
+      border-radius: 16px;
+      padding: 56px;
+      text-align: center;
+      margin: 24px 0 0;
+    }
+    .menu-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .menu-cta p {
+      font-size: 16px;
+      color: rgba(243,231,211,.55);
+      margin-bottom: 28px;
+    }
+    .menu-cta-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 32px;
+      background: var(--terracotta);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 600;
+      border: none; border-radius: 6px;
+      cursor: pointer;
+      transition: background .3s, transform .2s;
+    }
+    .btn-primary:hover { background: var(--chili); transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 32px;
+      background: transparent;
+      color: var(--cream);
+      font-size: 15px; font-weight: 500;
+      border: 1px solid rgba(243,231,211,.3);
+      border-radius: 6px;
+      transition: all .3s;
+    }
+    .btn-ghost:hover { border-color: var(--cream); background: rgba(243,231,211,.08); }
+
+    /* -- FOOTER ---------------------------------------- */
+    footer {
+      background: var(--darkest);
+      padding: 60px 80px 40px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+    .footer-brand-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      color: var(--cream);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .footer-logo-sm {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 12px; font-weight: 700;
+      color: var(--offwhite);
+    }
+    .footer-tagline {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(243,231,211,.35);
+    }
+    .footer-col-title {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px;
+      color: rgba(243,231,211,.4);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .footer-col a, .footer-col span {
+      display: block;
+      font-size: 14px;
+      color: var(--cream);
+      margin-bottom: 10px;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-line {
+      width: 100%; height: 1px;
+      background: rgba(243,231,211,.08);
+      margin-bottom: 24px;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(243,231,211,.25);
+    }
+
+    /* -- RESPONSIVE 1100px ---------------------------------------- */
+    @media (max-width: 1100px) {
+      nav { padding: 16px 36px; }
+      .page-hero { padding: 100px 48px 64px; }
+      .page-hero h1 { font-size: 40px; }
+      footer { padding: 48px 48px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    /* -- RESPONSIVE 768px ---------------------------------------- */
+    @media (max-width: 768px) {
+      .nav-links, .btn-call-nav { display: none; }
+      .hamburger { display: flex; }
+      nav { padding: 14px 24px; }
+      .page-hero { padding: 80px 24px 56px; }
+      .page-hero h1 { font-size: 32px; }
+      .menu-wrapper { padding: 48px 16px; }
+      .category-title { font-size: 24px; }
+      .menu-cta { padding: 40px 24px; }
+      .menu-cta h2 { font-size: 26px; }
+      footer { padding: 40px 24px 28px; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ────────────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-circle">CL</div>
+    <span class="nav-logo-text">Coco Loco</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#hours">Hours</a></li>
+    <li><a href="index.html#location">Location</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="btn-book" onclick="openBooking()">Book a Table</button>
+    <a href="tel:9796941633" class="btn-call-nav">Call Now</a>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── MOBILE MENU ────────────────────────────────── -->
+<div id="mobile-menu" style="display:none;position:fixed;inset:0;z-index:99;background:rgba(42,30,24,.95);backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;gap:32px;">
+  <a href="index.html" style="font-family:'Playfair Display',serif;font-size:28px;color:var(--cream);" onclick="closeMobileMenu()">Home</a>
+  <a href="index.html#about" style="font-family:'Playfair Display',serif;font-size:28px;color:var(--cream);" onclick="closeMobileMenu()">About</a>
+  <a href="index.html#hours" style="font-family:'Playfair Display',serif;font-size:28px;color:var(--cream);" onclick="closeMobileMenu()">Hours</a>
+  <a href="index.html#location" style="font-family:'Playfair Display',serif;font-size:28px;color:var(--cream);" onclick="closeMobileMenu()">Location</a>
+  <a href="tel:9796941633" style="font-size:16px;color:var(--gold);margin-top:16px;">Call (979) 694-1633</a>
+  <button class="btn-book" onclick="closeMobileMenu();openBooking();" style="margin-top:8px;">Book a Table</button>
+  <button onclick="closeMobileMenu()" style="position:absolute;top:24px;right:24px;background:none;border:none;font-size:28px;color:var(--cream);cursor:pointer;">&#10005;</button>
+</div>
+
+<!-- ── PAGE HERO ────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-hero-tag">Our Menu</div>
+    <h1>Fresh Made Daily</h1>
+    <p>From early morning breakfast plates to hearty lunch favorites — authentic Mexican comfort food served with love.</p>
+  </div>
+</section>
+
+<!-- ── MENU ────────────────────────────────────────── -->
+<div class="menu-wrapper">
+
+  <!-- BREAKFAST PLATES -->
+  <div class="menu-category reveal">
+    <div class="category-header">
+      <h2 class="category-title">Breakfast Plates</h2>
+      <span class="category-badge">14 Items</span>
+    </div>
+    <p class="category-sub">All breakfast plates served with your choice of beans, rice, and fresh tortillas.</p>
+
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Steak and Egg Plate</div>
+        <div class="item-desc">Grilled steak with eggs cooked your way, served with rice, beans, and tortillas.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Barbacoa Plate</div>
+        <div class="item-desc">Tender, slow-cooked barbacoa served with rice, beans, and fresh tortillas.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Machacado Plate</div>
+        <div class="item-desc">Dried beef scrambled with eggs, tomatoes, onions, and peppers.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Country Breakfast Plate</div>
+        <div class="item-desc">A hearty plate with eggs, hash browns, and your choice of meat.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Heavy Breakfast Plate</div>
+        <div class="item-desc">Our biggest plate — eggs, choice of meat, beans, rice, potatoes, and tortillas.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Migas Plate</div>
+        <div class="item-desc">Scrambled eggs with crispy tortilla strips, cheese, tomatoes, and peppers.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Chilaquiles Plate</div>
+        <div class="item-desc">Crispy tortilla chips simmered in salsa, topped with eggs, cheese, and crema.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Sausage and Egg Plate</div>
+        <div class="item-desc">Classic breakfast with sausage links and eggs, served with all the sides.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Huevos Rancheros</div>
+        <div class="item-desc">Fried eggs over corn tortillas smothered in our house ranchero sauce.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Huevos a la Mexicana</div>
+        <div class="item-desc">Eggs scrambled with fresh tomatoes, onions, and jalape&ntilde;os.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Chorizo and Egg Plate</div>
+        <div class="item-desc">Spicy Mexican chorizo scrambled with eggs. A breakfast classic.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Protein Lovers Plate</div>
+        <div class="item-desc">Extra meat, extra eggs — for those who came hungry.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Breakfast Plate</div>
+        <div class="item-desc">Our standard breakfast: eggs your way, choice of meat, beans, rice, tortillas.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Happy Plate</div>
+        <div class="item-desc">A little bit of everything to make you happy. Ask us what's on it today.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BREAKFAST TACOS -->
+  <div class="menu-category reveal">
+    <div class="category-header">
+      <h2 class="category-title">Breakfast Tacos</h2>
+      <span class="category-badge">7 Fillings</span>
+    </div>
+    <p class="category-sub">Served on fresh homemade flour tortillas. Mix and match your favorites.</p>
+
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Egg &amp; Bacon</div>
+        <div class="item-desc">Scrambled eggs with crispy bacon on a fresh tortilla.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Egg &amp; Sausage</div>
+        <div class="item-desc">Scrambled eggs with seasoned breakfast sausage.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Egg &amp; Chorizo</div>
+        <div class="item-desc">Scrambled eggs with spicy Mexican chorizo.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span><span class="item-tag tag-spicy">Spicy</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Potato &amp; Egg</div>
+        <div class="item-desc">Scrambled eggs with seasoned potatoes.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Bean &amp; Cheese</div>
+        <div class="item-desc">Refried beans and melted cheese. Simple and satisfying.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Barbacoa</div>
+        <div class="item-desc">Slow-cooked, tender shredded beef with cilantro and onion.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Carne Guisada</div>
+        <div class="item-desc">Tender beef in savory gravy, wrapped in a warm tortilla.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUNCH & MAIN DISHES -->
+  <div class="menu-category reveal">
+    <div class="category-header">
+      <h2 class="category-title">Lunch &amp; Main Dishes</h2>
+      <span class="category-badge">7 Items</span>
+    </div>
+    <p class="category-sub">Served with rice, beans, and tortillas unless noted otherwise.</p>
+
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Chicken Enchiladas</div>
+        <div class="item-desc">Rolled corn tortillas stuffed with seasoned chicken, topped with enchilada sauce and melted cheese.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Carne Guisada Plate</div>
+        <div class="item-desc">Tender beef simmered in a savory tomato and pepper gravy. Served with rice, beans, and tortillas.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Beef Fajitas</div>
+        <div class="item-desc">Sizzling beef with grilled peppers and onions, served with all the fixings.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Popular</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Quesadillas</div>
+        <div class="item-desc">Grilled flour tortilla filled with melted cheese and your choice of meat.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Taco Salad</div>
+        <div class="item-desc">Crispy tortilla bowl filled with seasoned meat, lettuce, cheese, tomato, and sour cream.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Enchilada Plate</div>
+        <div class="item-desc">Three enchiladas with your choice of filling, smothered in sauce and cheese.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Fajita Plate</div>
+        <div class="item-desc">Your choice of chicken or beef fajitas with grilled veggies and all the sides.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDES -->
+  <div class="menu-category reveal">
+    <div class="category-header">
+      <h2 class="category-title">Sides</h2>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Chips &amp; Salsa</div>
+        <div class="item-desc">Fresh tortilla chips with our house-made salsa.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Homemade Green Sauce</div>
+        <div class="item-desc">Our famous green salsa — the one everyone asks about. Made fresh daily.</div>
+        <div class="item-tags"><span class="item-tag tag-popular">Fan Favorite</span></div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Beans</div>
+        <div class="item-desc">Refried or whole pinto beans, cooked slow and seasoned right.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Rice</div>
+        <div class="item-desc">Mexican-style rice with tomato and spices.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Tortillas</div>
+        <div class="item-desc">Homemade flour or corn tortillas. Made fresh in-house every morning.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRINKS -->
+  <div class="menu-category reveal">
+    <div class="category-header">
+      <h2 class="category-title">Drinks</h2>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Horchata</div>
+        <div class="item-desc">Traditional Mexican rice milk drink with cinnamon and vanilla.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Coffee</div>
+        <div class="item-desc">Fresh brewed coffee, served hot.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Tea</div>
+        <div class="item-desc">Hot or iced tea.</div>
+      </div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Soft Drinks</div>
+        <div class="item-desc">Coca-Cola, Sprite, Dr Pepper, and more.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKEND SPECIAL -->
+  <div class="menu-category reveal">
+    <div class="category-header">
+      <h2 class="category-title">Weekend Special</h2>
+      <span class="category-badge">Sat &amp; Sun Only</span>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Menudo</div>
+        <div class="item-desc">Traditional Mexican tripe soup with hominy, red chili broth, and all the fixings. Served with fresh tortillas, lime, and oregano. Available Saturdays and Sundays only.</div>
+        <div class="item-tags"><span class="item-tag tag-weekend">Weekend Only</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="menu-cta reveal">
+    <h2>Ready to Eat?</h2>
+    <p>Call ahead for pickup or stop by — we're open 7 AM to 8 PM every day.</p>
+    <div class="menu-cta-btns">
+      <a href="tel:9796941633" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call to Order
+      </a>
+      <button class="btn-ghost" onclick="openBooking()">Book a Table</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-text">
+        <div class="footer-logo-sm">CL</div>
+        Coco Loco
+      </div>
+      <p class="footer-tagline">Authentic Mexican breakfast and comfort food in College Station, Texas. Homemade tortillas, fresh salsa, and local favorites since day one.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Navigation</div>
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#hours">Hours</a>
+      <a href="index.html#location">Location</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Hours</div>
+      <span>Monday – Sunday</span>
+      <span>7:00 AM – 8:00 PM</span>
+      <span style="margin-top:8px;color:var(--gold);font-weight:500;">Open Daily</span>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Contact</div>
+      <a href="tel:9796941633">(979) 694-1633</a>
+      <span>1804 Welsh Ave</span>
+      <span>College Station, TX 77840</span>
+    </div>
+  </div>
+  <div class="footer-line"></div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025 Coco Loco. All rights reserved.</span>
+    <span class="footer-copy">Authentic Mexican Food in College Station, TX</span>
+  </div>
+</footer>
+
+<!-- ── RESERVATION MODAL ─────────────────────────────── -->
+<div id="bookingModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(42,30,24,.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+  <div style="background:var(--offwhite);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:48px;position:relative;margin:16px;border-radius:12px;">
+    <button onclick="closeBooking()" style="position:absolute;top:20px;right:24px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;">&times;</button>
+    <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--brown);margin-bottom:4px;">Book a Table</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:32px;">Coco Loco &middot; College Station, TX</div>
+
+    <form id="bookingForm" onsubmit="submitBooking(event)">
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:8px;">NAME</label>
+        <input id="rName" type="text" required placeholder="Your full name"
+          style="width:100%;border:1px solid var(--border);background:var(--white);padding:12px 16px;font-family:Inter,sans-serif;font-size:14px;outline:none;border-radius:4px;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--terracotta)'" onblur="this.style.borderColor='var(--border)'"/>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:8px;">PHONE</label>
+        <input id="rPhone" type="tel" required placeholder="(979) 000-0000"
+          style="width:100%;border:1px solid var(--border);background:var(--white);padding:12px 16px;font-family:Inter,sans-serif;font-size:14px;outline:none;border-radius:4px;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--terracotta)'" onblur="this.style.borderColor='var(--border)'"/>
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:10px;">PARTY SIZE</label>
+        <div id="party-btns" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:10px;">DATE</label>
+        <div id="cal-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <button type="button" onclick="changeMonth(-1)" style="background:none;border:1px solid var(--border);width:32px;height:32px;cursor:pointer;font-size:16px;border-radius:4px;color:var(--brown);">&lsaquo;</button>
+          <span id="cal-label" style="font-size:14px;font-weight:500;color:var(--brown);"></span>
+          <button type="button" onclick="changeMonth(1)" style="background:none;border:1px solid var(--border);width:32px;height:32px;cursor:pointer;font-size:16px;border-radius:4px;color:var(--brown);">&rsaquo;</button>
+        </div>
+        <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;"></div>
+      </div>
+      <div style="margin-bottom:32px;">
+        <label style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:10px;">TIME</label>
+        <div id="time-slots" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+      <button type="submit"
+        style="width:100%;background:var(--terracotta);color:var(--offwhite);padding:14px;font-family:Inter,sans-serif;font-size:14px;font-weight:600;border:none;border-radius:6px;cursor:pointer;letter-spacing:.5px;transition:background .3s;"
+        onmouseover="this.style.background='var(--chili)'" onmouseout="this.style.background='var(--terracotta)'">
+        Confirm Reservation &rarr;
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ── STATE ──────────────────────────────────────────
+  let selParty = null, selDate = null, selTime = null;
+  let calYear, calMonth;
+
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const TIMES = ['7:00 AM','8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
+
+  function btnBase() {
+    return 'font-family:Inter,sans-serif;font-size:13px;padding:8px 16px;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:all .15s;border-radius:4px;color:var(--brown);';
+  }
+  function btnActive() {
+    return 'font-family:Inter,sans-serif;font-size:13px;padding:8px 16px;border:1px solid var(--terracotta);background:var(--terracotta);color:var(--offwhite);cursor:pointer;transition:all .15s;border-radius:4px;';
+  }
+
+  function renderParty() {
+    const wrap = document.getElementById('party-btns');
+    wrap.innerHTML = '';
+    [1,2,3,4,5,6,'7+'].forEach(n => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = n;
+      b.style.cssText = (selParty === n ? btnActive() : btnBase());
+      b.onclick = () => { selParty = n; renderParty(); };
+      wrap.appendChild(b);
+    });
+  }
+
+  function renderCal() {
+    document.getElementById('cal-label').textContent = MONTHS[calMonth] + ' ' + calYear;
+    const grid = document.getElementById('cal-grid');
+    grid.innerHTML = '';
+    DAYS.forEach(d => {
+      const cell = document.createElement('div');
+      cell.textContent = d;
+      cell.style.cssText = 'font-size:11px;font-weight:700;color:var(--muted);padding:4px 0;letter-spacing:.5px;';
+      grid.appendChild(cell);
+    });
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = new Date(); today.setHours(0,0,0,0);
+    for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(calYear, calMonth, d);
+      const key = date.toISOString().split('T')[0];
+      const isPast = date < today;
+      const isSelected = selDate === key;
+      const cell = document.createElement('button');
+      cell.type = 'button'; cell.textContent = d;
+      if (isPast) {
+        cell.style.cssText = 'font-size:13px;padding:6px;color:#ccc;cursor:default;background:none;border:none;';
+        cell.disabled = true;
+      } else if (isSelected) {
+        cell.style.cssText = 'font-size:13px;padding:6px;background:var(--terracotta);color:var(--offwhite);border:1px solid var(--terracotta);cursor:pointer;border-radius:4px;';
+      } else {
+        cell.style.cssText = 'font-size:13px;padding:6px;background:none;border:1px solid transparent;cursor:pointer;transition:border-color .15s;border-radius:4px;color:var(--brown);';
+        cell.onmouseover = () => { if (!cell.disabled) cell.style.borderColor = 'var(--border)'; };
+        cell.onmouseout  = () => { if (!cell.disabled) cell.style.borderColor = 'transparent'; };
+      }
+      cell.onclick = () => { if (!isPast) { selDate = key; renderCal(); } };
+      grid.appendChild(cell);
+    }
+  }
+
+  function changeMonth(dir) {
+    calMonth += dir;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0)  { calMonth = 11; calYear--; }
+    renderCal();
+  }
+
+  function renderTimes() {
+    const wrap = document.getElementById('time-slots');
+    wrap.innerHTML = '';
+    TIMES.forEach(h => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = h;
+      b.style.cssText = (selTime === h ? btnActive() : btnBase());
+      b.onclick = () => { selTime = h; renderTimes(); };
+      wrap.appendChild(b);
+    });
+  }
+
+  function openBooking() {
+    const now = new Date();
+    calYear = now.getFullYear(); calMonth = now.getMonth();
+    selParty = null; selDate = null; selTime = null;
+    renderParty(); renderCal(); renderTimes();
+    document.getElementById('bookingModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBooking() {
+    document.getElementById('bookingModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('bookingModal').addEventListener('click', function(e) {
+    if (e.target === this) closeBooking();
+  });
+
+  function submitBooking(e) {
+    e.preventDefault();
+    if (!selParty) { alert('Please select a party size.'); return; }
+    if (!selDate)  { alert('Please select a date.'); return; }
+    if (!selTime)  { alert('Please select a time.'); return; }
+    const name = document.getElementById('rName').value.trim();
+    const phone = document.getElementById('rPhone').value.trim();
+    const [y,m,d] = selDate.split('-');
+    const dateStr = MONTHS[parseInt(m)-1] + ' ' + parseInt(d) + ', ' + y;
+    alert('Reservation request sent!\n\nName: ' + name + '\nParty: ' + selParty + '\nDate: ' + dateStr + '\nTime: ' + selTime + '\nPhone: ' + phone + '\n\nWe will call you to confirm. Thank you!');
+    closeBooking();
+  }
+
+  // ── MOBILE MENU ───────────────────────────────────
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    document.body.style.overflow = menu.style.display === 'flex' ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // ── SCROLL REVEAL ─────────────────────────────────
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.1 + 's';
+    revealObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>
